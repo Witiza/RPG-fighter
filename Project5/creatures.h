@@ -27,4 +27,8 @@ struct monster_data
 	int xp;
 };
 
+void name_selector();
+
+
+
 #endif // __CREATURES_H__
