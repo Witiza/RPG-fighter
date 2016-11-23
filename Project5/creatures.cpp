@@ -11,6 +11,7 @@ void name_selector()
 	char temp_char[20];
 	hero_data hero;
 	fflush(stdin);
-	scanf("%s", temp_char);
 	hero.name = temp_char;
+	scanf("%s", hero.name);
+	
 }
