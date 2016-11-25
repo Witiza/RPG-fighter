@@ -11,6 +11,7 @@ void name_selector(hero_data* hero)
 	char temp_char[20];
 	int counter = 0;
 	fflush(stdin);
+<<<<<<< HEAD
 	scanf("%s", temp_char);
 
 	while(temp_char[counter-1] != '\0' )
@@ -38,4 +39,9 @@ void herostats_selector(combat_data* herostats)
 
 
 
+=======
+	hero.name = temp_char;
+	scanf("%s", hero.name);
+	
+>>>>>>> origin/master
 }
