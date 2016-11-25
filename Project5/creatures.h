@@ -14,7 +14,7 @@ struct combat_data
 
 struct hero_data
 {
-	char* name;
+	char name[20];
 	struct combat_data combat;
 	int coins;
 	int xp;
@@ -27,7 +27,8 @@ struct monster_data
 	int xp;
 };
 
-void name_selector();
+void name_selector(hero_data*);
+void herostats_selector(combat_data*);
 
 
 
