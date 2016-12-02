@@ -1,8 +1,14 @@
-﻿  creatures.cpp
-<<<<<<< HEAD
-  Project5.vcxproj -> C:\Users\lorienpl\Desktop\RPG Fighter - handout\Debug\RPG Fighter.exe
-  Project5.vcxproj -> C:\Users\lorienpl\Desktop\RPG Fighter - handout\Debug\RPG Fighter.pdb (Full PDB)
-=======
-  Project5.vcxproj -> C:\Users\lorienpl\Documents\GitHub\RPG-fighter\Debug\RPG Fighter.exe
-  Project5.vcxproj -> C:\Users\lorienpl\Documents\GitHub\RPG-fighter\Debug\RPG Fighter.pdb (Full PDB)
->>>>>>> origin/master
+﻿  String.cpp
+  Generating Code...
+  Compiling...
+  creatures.cpp
+  Generating Code...
+  Compiling...
+  main.cpp
+c:\users\lorienpl\documents\github\rpg fighter - handout\project5\main.cpp(7): warning C4005: '_CRT_SECURE_NO_WARNINGS': macro redefinition
+  c:\users\lorienpl\documents\github\rpg fighter - handout\project5\main.cpp(7): note: command-line arguments:  see previous definition of '_CRT_SECURE_NO_WARNINGS'
+c:\users\lorienpl\documents\github\rpg fighter - handout\project5\main.cpp(18): warning C4101: 'goblins': unreferenced local variable
+c:\users\lorienpl\documents\github\rpg fighter - handout\project5\main.cpp(17): warning C4101: 'goblinstats': unreferenced local variable
+  Generating Code...
+  Project5.vcxproj -> C:\Users\lorienpl\Documents\GitHub\RPG Fighter - handout\Debug\RPG Fighter.exe
+  Project5.vcxproj -> C:\Users\lorienpl\Documents\GitHub\RPG Fighter - handout\Debug\RPG Fighter.pdb (Full PDB)

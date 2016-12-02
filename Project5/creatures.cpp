@@ -1,4 +1,5 @@
 #include"creatures.h"
+#include "String.h"
 #include<stdio.h>
 
 typedef struct hero_data hero_data;
@@ -11,7 +12,6 @@ void name_selector(hero_data* hero)
 	char temp_char[20];
 	int counter = 0;
 	fflush(stdin);
-<<<<<<< HEAD
 	scanf("%s", temp_char);
 
 	while(temp_char[counter-1] != '\0' )
@@ -20,28 +20,18 @@ void name_selector(hero_data* hero)
 		counter++;
 	}
 }
-void herostats_selector(combat_data* herostats)
+void herostats_selector(hero_data* hero)
 {
-
-	/*scanf("%i", herostats->hp);
-	scanf("%i", herostats->attack_min);
-	scanf("%i", herostats->attack_max);
-	scanf("%i", herostats->armor);*/
 	fflush(stdin);
-	printf("\n	hp: ");
-	scanf("%i", &(herostats->hp));
-	printf("\n	minimum dmg: ");
-	scanf("%i", &(herostats->attack_min));
-	printf("\n	maximum dmg: ");
-	scanf("%i", &(herostats->attack_max));
-	printf("\n	armor: ");
-	scanf("%i", &(herostats->armor));
 
-
-
-=======
-	hero.name = temp_char;
-	scanf("%s", hero.name);
-	
->>>>>>> origin/master
+	printf("\n	hp (100-1000): ");
+	scanf("%i", &(hero->combat.hp));
+	printf("\n	minimum dmg (10-50): ");
+	scanf("%i", &(hero->combat.attack_min));
+	printf("\n	maximum dmg (20-100): ");
+	scanf("%i", &(hero->combat.attack_max));
+	printf("\n	armor (10-20): ");
+	scanf("%i", &(hero->combat.armor));
 }
+
+void goblinstats_generator(
