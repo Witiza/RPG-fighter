@@ -29,7 +29,7 @@ struct monster_data
 
 void name_selector(hero_data*);
 void herostats_selector(hero_data*);
-void goblinstats_generator(monster_data*);
+void goblinstats_generator(monster_data*, int);
 
 
 
