@@ -40,12 +40,56 @@ void goblinstats_generator(monster_data * goblins, int numof)
 {
 	for (int i = 0; i < numof; i++)
 	{
-		goblins->combat.hp = 1 + rand() % 100;
-		goblins->combat.attack_min = 1 + rand() % 14;
-		goblins->combat.attack_max = 15 + rand() % 14;
-		goblins->combat.armor = 1 + rand() % 5;
+		monster_data* active_goblin = goblins + i;
+		active_goblin->combat.hp = 1 + rand() % 100;
+		active_goblin->combat.attack_min = 1 + rand() % 14;
+		active_goblin->combat.attack_max = 15 + rand() % 16;
+		active_goblin->combat.armor = 1 + rand() % 5;
+		active_goblin->coins = 1 + rand() % 20;
+		active_goblin->xp = 1 + rand() % 10;
 	}
 }
+
+
+int damage_calculator(int attacker_dmg, int defender_armor, int defender_hp)
+{
+	if (defender_armor > attacker_dmg)
+	{
+		return defender_hp;
+	}
+
+	else
+	{
+		defender_hp = defender_hp - (attacker_dmg - defender_armor);
+			return defender_hp;
+	}
+
+}
+
+int combat_calculator(hero_data * hero, monster_data goblins, int numof)
+{
+	int alive_goblins = numof;
+	while (alive_goblins != 0)
+	{
+		monster_data* defender_goblin = &goblins[1 + rand() % numof];
+		while (defender_goblin->combat.hp != 0)
+		{
+			int hero_attack = hero->combat.attack_min + rand() % hero->combat.attack_max;
+			defender_goblin->combat.hp = damage_calculator(hero_attack, defender_goblin->combat.armor, defender_goblin->combat.hp);
+			if (defender_goblin->combat.hp < 0)
+			{
+				defender_goblin->combat.hp = 0;
+			}
+		}
+		alive_goblins - 1;
+	}
+}
+
+
+
+
+
+
 
 
 

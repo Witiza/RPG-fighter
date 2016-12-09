@@ -29,9 +29,11 @@ int main()
 	herostats_selector(&hero);
 	
 	srand(time(NULL));
-	
 	int num_goblins = 1 + rand() % 10;
-	goblinstats_generator(goblins*, num_goblins);
+	goblinstats_generator(goblins, num_goblins);
+
+	printf("You fight aganist an horde of %i goblins!!!\naks", num_goblins);
+	int combat_calculator(hero, goblins, num_goblins);
 	
 
 
