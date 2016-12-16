@@ -3,9 +3,5 @@ c:\users\lorienpl\documents\github\rpg fighter - handout\rpg-fighter\project5\ma
   c:\users\lorienpl\documents\github\rpg fighter - handout\rpg-fighter\project5\main.cpp(7): note: command-line arguments:  see previous definition of '_CRT_SECURE_NO_WARNINGS'
 c:\users\lorienpl\documents\github\rpg fighter - handout\rpg-fighter\project5\main.cpp(15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 c:\users\lorienpl\documents\github\rpg fighter - handout\rpg-fighter\project5\main.cpp(31): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\lorienpl\documents\github\rpg fighter - handout\rpg-fighter\project5\main.cpp(36): error C2440: 'initializing': cannot convert from 'initializer list' to 'int'
-  c:\users\lorienpl\documents\github\rpg fighter - handout\rpg-fighter\project5\main.cpp(36): note: The initializer contains too many elements
-  creatures.cpp
-c:\users\lorienpl\documents\github\rpg fighter - handout\rpg-fighter\project5\creatures.cpp(74): error C2676: binary '[': 'monster_data' does not define this operator or a conversion to a type acceptable to the predefined operator
-c:\users\lorienpl\documents\github\rpg fighter - handout\rpg-fighter\project5\creatures.cpp(84): warning C4552: '-': operator has no effect; expected operator with side-effect
-  Generating Code...
+  Project5.vcxproj -> C:\Users\lorienpl\Documents\GitHub\RPG Fighter - handout\RPG-fighter\Debug\RPG Fighter.exe
+  Project5.vcxproj -> C:\Users\lorienpl\Documents\GitHub\RPG Fighter - handout\RPG-fighter\Debug\RPG Fighter.pdb (Full PDB)

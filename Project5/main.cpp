@@ -32,8 +32,9 @@ int main()
 	int num_goblins = 1 + rand() % 10;
 	goblinstats_generator(goblins, num_goblins);
 
-	printf("You fight aganist an horde of %i goblins!!!\naks", num_goblins);
-	int combat_calculator(hero, goblins, num_goblins);
+	printf("You fight aganist an horde of %i goblins!!!\n", num_goblins);
+	combat_calculator(&hero, goblins, num_goblins);
+	printf("finish");
 	
 
 

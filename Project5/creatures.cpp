@@ -30,7 +30,7 @@ void herostats_selector(hero_data* hero)
 	scanf("%i", &(hero->combat.hp));
 	printf("\n	minimum dmg (10-25): ");
 	scanf("%i", &(hero->combat.attack_min));
-	printf("\n	maximum dmg (26-50 ");
+	printf("\n	maximum dmg (26-50): ");
 	scanf("%i", &(hero->combat.attack_max));
 	printf("\n	armor (10-20): ");
 	scanf("%i", &(hero->combat.armor));
@@ -66,22 +66,42 @@ int damage_calculator(int attacker_dmg, int defender_armor, int defender_hp)
 
 }
 
-int combat_calculator(hero_data * hero, monster_data goblins, int numof)
+void combat_calculator(hero_data * hero, monster_data* goblins, int numof)
 {
 	int alive_goblins = numof;
-	while (alive_goblins != 0)
+	while (alive_goblins != 0 || hero->combat.hp <= 0)
 	{
-		monster_data* defender_goblin = &goblins[1 + rand() % numof];
-		while (defender_goblin->combat.hp != 0)
+		int goblin_attacked = 1 + rand() % numof;
+		monster_data* defender_goblin = &goblins[goblin_attacked];
+		if (defender_goblin->combat.hp != 0)
 		{
 			int hero_attack = hero->combat.attack_min + rand() % hero->combat.attack_max;
 			defender_goblin->combat.hp = damage_calculator(hero_attack, defender_goblin->combat.armor, defender_goblin->combat.hp);
-			if (defender_goblin->combat.hp < 0)
+			printf("You attack goblin #%i \n\n", goblin_attacked);
+			if (defender_goblin->combat.hp <= 0)
 			{
 				defender_goblin->combat.hp = 0;
+				printf("You killed goblin #%i \n\n", goblin_attacked);
+				alive_goblins - 1;
 			}
+			else
+			{
+				printf("The goblin #%i has %i hp left \n\n", goblin_attacked, defender_goblin->combat.hp);
+			}
+
+			for (int i = 0; i < alive_goblins; i++)
+			{
+				monster_data* active_goblin = goblins + i;
+				if (active_goblin->combat.hp = 0)
+					unsigned int goblin_attack;
+
+				int goblin_attack = active_goblin->combat.attack_min + rand() % active_goblin->combat.attack_max;
+				hero->combat.hp = damage_calculator(goblin_attack, hero->combat.armor, hero->combat.hp);
+				
+			}
+			printf("The goblins have attacked you, and left you with %i hp left \n\n", hero->combat.hp);
+
 		}
-		alive_goblins - 1;
 	}
 }
 
