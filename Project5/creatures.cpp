@@ -34,6 +34,8 @@ void herostats_selector(hero_data* hero)
 	scanf("%i", &(hero->combat.attack_max));
 	printf("\n	armor (10-20): ");
 	scanf("%i", &(hero->combat.armor));
+	hero->coins = 0;
+	hero->xp = 0;
 }
 
 void goblinstats_generator(monster_data * goblins, int numof)
@@ -51,8 +53,9 @@ void goblinstats_generator(monster_data * goblins, int numof)
 }
 
 
-int damage_calculator(int attacker_dmg, int defender_armor, int defender_hp)
+int damage_calculator(int attacker_mindmg, int attacker_maxdmg, int defender_armor, int defender_hp)
 {
+	int attacker_dmg = attacker_mindmg + rand() % attacker_maxdmg;
 	if (defender_armor > attacker_dmg)
 	{
 		return defender_hp;
@@ -66,22 +69,24 @@ int damage_calculator(int attacker_dmg, int defender_armor, int defender_hp)
 
 }
 
-void combat_calculator(hero_data * hero, monster_data* goblins, int numof)
+void combat_loop(hero_data * hero, monster_data* goblins, int numofgoblins)
 {
-	int alive_goblins = numof;
-	while (alive_goblins != 0 || hero->combat.hp <= 0)
+	int alive_goblins = numofgoblins;
+	while (alive_goblins > 0 || hero->combat.hp <= 0)
 	{
-		int goblin_attacked = 1 + rand() % numof;
+		int goblin_attacked = 1 + rand() % numofgoblins;
 		monster_data* defender_goblin = &goblins[goblin_attacked];
 		if (defender_goblin->combat.hp != 0)
 		{
-			int hero_attack = hero->combat.attack_min + rand() % hero->combat.attack_max;
-			defender_goblin->combat.hp = damage_calculator(hero_attack, defender_goblin->combat.armor, defender_goblin->combat.hp);
 			printf("You attack goblin #%i \n\n", goblin_attacked);
+			defender_goblin->combat.hp = damage_calculator(hero->combat.attack_min, hero->combat.attack_max, defender_goblin->combat.armor, defender_goblin->combat.hp);
+
 			if (defender_goblin->combat.hp <= 0)
 			{
 				defender_goblin->combat.hp = 0;
-				printf("You killed goblin #%i \n\n", goblin_attacked);
+				hero->coins += defender_goblin->coins;
+				hero->xp += defender_goblin->xp;
+				printf("You killed goblin #%i and received %i coins and %i exp point from him\n\n", goblin_attacked, defender_goblin->coins, defender_goblin->xp);
 				alive_goblins - 1;
 			}
 			else
@@ -92,25 +97,21 @@ void combat_calculator(hero_data * hero, monster_data* goblins, int numof)
 			for (int i = 0; i < alive_goblins; i++)
 			{
 				monster_data* active_goblin = goblins + i;
-				if (active_goblin->combat.hp = 0)
-					unsigned int goblin_attack;
-
-				int goblin_attack = active_goblin->combat.attack_min + rand() % active_goblin->combat.attack_max;
-				hero->combat.hp = damage_calculator(goblin_attack, hero->combat.armor, hero->combat.hp);
-				
+				if (active_goblin->combat.hp != 0)
+				{
+					hero->combat.hp = damage_calculator(active_goblin->combat.attack_min, active_goblin->combat.attack_max, hero->combat.armor, hero->combat.hp);
+				}
 			}
-			printf("The goblins have attacked you, and left you with %i hp left \n\n", hero->combat.hp);
-
+			if (hero->combat.hp <= 0)
+			{
+				hero->combat.hp = 0;
+				printf("The goblins have finally killed you. You died with %i coins in the bag and %i points of exp in wherever they are stored. Good luck in the afterlife %s \n\n", hero->coins, hero->xp, hero->name);
+			}
+			else if (hero->combat.hp > 0)
+			{
+				printf("The goblins have attacked you, and left you with %i hp left \n\n", hero->combat.hp);
+			}
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
 
