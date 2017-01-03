@@ -35,4 +35,4 @@ int damage_calculator(int, int, int, int);
 
 
 
-#endif // __CREATURES_H__
+#endif 
