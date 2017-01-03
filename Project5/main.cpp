@@ -27,14 +27,16 @@ int main()
 	printf("\nEnter combat stats for %s:", hero.name);
 	
 	herostats_selector(&hero);
-	
-	srand(time(NULL));
-	int num_goblins = 1 + rand() % 10;
-	goblinstats_generator(goblins, num_goblins);
-
-	printf("You fight aganist an horde of %i goblins!!!\n", num_goblins);
-	combat_loop(&hero, goblins, num_goblins);
+	while (hero.combat.hp > 0)
+	{
+		srand(time(NULL));
+		int num_goblins = 1 + rand() % 10;
+		goblinstats_generator(goblins, num_goblins);
+		printf("You fight aganist an horde of %i goblins!!!\n\n", num_goblins);
+		combat_loop(&hero, goblins, num_goblins);
+	}
 	printf("finish");
+
 	
 	
 
@@ -45,7 +47,7 @@ int main()
 	
 	
 
-	
+	getchar();
 	getchar();
 	return 0;
 }

@@ -40,7 +40,7 @@ void herostats_selector(hero_data* hero)
 
 void goblinstats_generator(monster_data * goblins, int numof)
 {
-	for (int i = 0; i < numof; i++)
+	for (int i = 1; i <= numof; i++)
 	{
 		monster_data* active_goblin = goblins + i;
 		active_goblin->combat.hp = 1 + rand() % 100;
@@ -72,7 +72,7 @@ int damage_calculator(int attacker_mindmg, int attacker_maxdmg, int defender_arm
 void combat_loop(hero_data * hero, monster_data* goblins, int numofgoblins)
 {
 	int alive_goblins = numofgoblins;
-	while (alive_goblins > 0 || hero->combat.hp <= 0)
+	while (alive_goblins > 0)
 	{
 		int goblin_attacked = 1 + rand() % numofgoblins;
 		monster_data* defender_goblin = &goblins[goblin_attacked];
@@ -87,11 +87,13 @@ void combat_loop(hero_data * hero, monster_data* goblins, int numofgoblins)
 				hero->coins += defender_goblin->coins;
 				hero->xp += defender_goblin->xp;
 				printf("You killed goblin #%i and received %i coins and %i exp point from him\n\n", goblin_attacked, defender_goblin->coins, defender_goblin->xp);
-				alive_goblins - 1;
+				getchar();
+				alive_goblins -= 1;
 			}
 			else
 			{
 				printf("The goblin #%i has %i hp left \n\n", goblin_attacked, defender_goblin->combat.hp);
+				getchar();
 			}
 
 			for (int i = 0; i < alive_goblins; i++)
@@ -106,10 +108,19 @@ void combat_loop(hero_data * hero, monster_data* goblins, int numofgoblins)
 			{
 				hero->combat.hp = 0;
 				printf("The goblins have finally killed you. You died with %i coins in the bag and %i points of exp in wherever they are stored. Good luck in the afterlife %s \n\n", hero->coins, hero->xp, hero->name);
+				getchar();
+				return;
 			}
-			else if (hero->combat.hp > 0)
+			else if (hero->combat.hp > 0 && alive_goblins > 0)
 			{
 				printf("The goblins have attacked you, and left you with %i hp left \n\n", hero->combat.hp);
+				getchar();
+			}
+			else if (hero->combat.hp > 0 && alive_goblins <= 0)
+			{
+				printf("You killed all the goblins, prepare for the next assault\n\n");
+				getchar();
+				return;
 			}
 		}
 	}
