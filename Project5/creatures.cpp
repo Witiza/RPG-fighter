@@ -34,6 +34,7 @@ void herostats_selector(hero_data* hero)//This function works by just printing t
 	scanf("%i", &(hero->combat.attack_max));
 	printf("\n	armor (10-20): ");
 	scanf("%i", &(hero->combat.armor));
+	hero->level = 1;
 	hero->coins = 0;
 	hero->xp = 0;
 }
@@ -78,14 +79,25 @@ void combat_loop(hero_data * hero, monster_data* goblins, int numofgoblins)
 		monster_data* defender_goblin = &goblins[goblin_attacked];
 		if (defender_goblin->combat.hp != 0) //we check if the goblin attacked is alive (hp>0). If not, we just restart the cycle.
 		{
-			printf("You attack goblin #%i", goblin_attacked);
+			printf("You attacked goblin #%i", goblin_attacked);
 			int hero_dmg = (hero->combat.attack_min + rand() % hero->combat.attack_max) - defender_goblin->combat.armor;//we calculate the damage we are going to deal to the defender goblin and then substract it. if its negative or zero, due to the armor, we change it to one, cuz the gameplay.
+			int hero_crit_chance = 1 + rand() % 100;
+			if (hero_crit_chance <= 5)
+			{
+				hero_dmg += defender_goblin->combat.armor;
+				hero_dmg *= 3;
+			}
 			if (hero_dmg <= 0)
 			{
 				hero_dmg = 1;
 			}
+			if (hero_crit_chance <= 5)
+			{
+				printf(" with a critical hit");
+			}
+			
+			printf(" and dealt %i dmg to him\n\n", hero_dmg);
 			defender_goblin->combat.hp -= hero_dmg;
-			printf(" and deal %i dmg to him\n\n", hero_dmg);
 
 			//Now we check the different options. If the goblin's hp is o or below, we kill it and their coins and xp are added to the hero struct. If not, we just print a message.
 			if (defender_goblin->combat.hp <= 0)
@@ -94,6 +106,14 @@ void combat_loop(hero_data * hero, monster_data* goblins, int numofgoblins)
 				hero->coins += defender_goblin->coins;
 				hero->xp += defender_goblin->xp;
 				printf("You killed goblin #%i and received %i coins and %i exp point from him\n\n", goblin_attacked, defender_goblin->coins, defender_goblin->xp);
+				if (hero->xp >= hero->level * 50)
+				{
+					goblins_level_up(hero, goblins);
+					hero_level_up(hero);
+					printf("Your hero has leveled up and is now level %i!!! It's stats have increased, but watch out, the new goblins are thoughter than the previous ones.\nYour new hero stats are:\n\n", hero->level);
+					getchar();
+					printf("hp: %i\nattack_min: %i\nattack_max: %i\narmor: %i\n", hero->combat.hp, hero->combat.attack_min, hero->combat.attack_max, hero->combat.armor);
+				}
 				getchar();
 				alive_goblins -= 1;
 			}
@@ -111,7 +131,13 @@ void combat_loop(hero_data * hero, monster_data* goblins, int numofgoblins)
 				monster_data* active_goblin = goblins + i;
 				if (active_goblin->combat.hp > 0)
 				{
-					goblin_dmg += (active_goblin->combat.attack_min + rand() % active_goblin->combat.attack_max) - hero->combat.armor;
+					goblin_dmg += ((active_goblin->combat.attack_min + rand() % active_goblin->combat.attack_max) - hero->combat.armor);
+					int goblin_crit_chance = 1 + rand() % 100;
+					if (goblin_crit_chance <= 5)
+					{
+						goblin_dmg += hero->combat.armor;
+						goblin_dmg *= 3;
+					}
 					if (goblin_dmg <= 0)
 					{
 						goblin_dmg = 1;
@@ -125,7 +151,7 @@ void combat_loop(hero_data * hero, monster_data* goblins, int numofgoblins)
 			if (hero->combat.hp <= 0)
 			{
 				hero->combat.hp = 0;
-				printf("The goblins have dealt %i dmg and finally killed you. You died with %i coins in the bag and %i points of exp in wherever they are stored. Good luck in the afterlife %s \n\n", goblin_dmg, hero->coins, hero->xp, hero->name);
+				printf("The goblins have dealt %i dmg and finally killed you. You died with %i coins in the bag and %i points of exp (level %i) in wherever they are stored. Good luck in the afterlife %s \n\n", goblin_dmg, hero->coins, hero->xp, hero->level, hero->name);
 				getchar();
 				return;
 			}
@@ -143,4 +169,24 @@ void combat_loop(hero_data * hero, monster_data* goblins, int numofgoblins)
 		}
 	}
 }
+
+void hero_level_up(hero_data* hero)
+{
+	hero->combat.hp += 10 * hero->level;
+	hero->combat.attack_min += 4 * hero->level;
+	hero->combat.attack_max += 4 * hero->level;
+	hero->combat.armor += 2 * hero->level;
+	hero->level += 1;
+}
+
+void goblins_level_up(hero_data* hero, monster_data* goblins)
+{
+	goblins->combat.hp += 10 * hero->level;
+	goblins->combat.attack_min += 10 * hero->level;
+	goblins->combat.attack_max += 10 * hero->level;
+	goblins->combat.armor += 10 * hero->level;
+	goblins->coins += 10 * hero->level;
+	goblins->xp += 10 * hero->level;
+}
+
 

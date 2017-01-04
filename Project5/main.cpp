@@ -26,10 +26,15 @@ int main()
 	while (hero.combat.hp > 0)
 	{
 		srand(time(NULL));
-		int num_goblins = 2 + rand() % 10; //we add a 1 to the result because a normal rand 10 would go from 0 to 9, and the player might be confused when he is attacked by 0 goblins.
+		int num_goblins = 2 + rand() % 9; //we add a 1 to the result because a normal rand 10 would go from 0 to 9, and the player might be confused when he is attacked by 0 goblins.
 		goblinstats_generator(goblins, num_goblins);
+		if (hero.level > 1)
+		{
+			goblins_level_up(&hero, goblins);
+		}
 		printf("You fight aganist an horde of %i goblins!!!\n\n", num_goblins);
 		combat_loop(&hero, goblins, num_goblins);
+		hero.xp += (hero.level * 10);
 	}
 	
 	printf("Game finished, thanks for playing");
