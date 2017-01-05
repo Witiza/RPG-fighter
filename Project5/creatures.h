@@ -19,6 +19,7 @@ struct hero_data
 	int level;
 	int coins;
 	int xp;
+	int class_choosen;
 };
 
 struct monster_data
@@ -35,6 +36,6 @@ void combat_loop(hero_data*, monster_data*, int numof);
 int damage_calculator(int, int, int, int);
 void hero_level_up(hero_data*);
 void goblins_level_up(hero_data*, monster_data*);
-
+int ranger_hability(hero_data*, monster_data*, int, int);
 
 #endif 

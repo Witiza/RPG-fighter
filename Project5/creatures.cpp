@@ -81,8 +81,17 @@ void combat_loop(hero_data * hero, monster_data* goblins, int numofgoblins)
 		{
 			printf("You attacked goblin #%i", goblin_attacked);
 			int hero_dmg = (hero->combat.attack_min + rand() % hero->combat.attack_max) - defender_goblin->combat.armor;//we calculate the damage we are going to deal to the defender goblin and then substract it. if its negative or zero, due to the armor, we change it to one, cuz the gameplay.
+			if (hero_dmg < hero->combat.attack_min + (hero->combat.attack_max / 4) && hero->class_choosen == 2)
+			{
+				hero_dmg = hero->combat.attack_min + (hero->combat.attack_max / 4);
+			}
 			int hero_crit_chance = 1 + rand() % 100;
-			if (hero_crit_chance <= 5)
+			if (hero_crit_chance <= 5 && hero->class_choosen != 3)
+			{
+				hero_dmg += defender_goblin->combat.armor;
+				hero_dmg *= 3;
+			}
+			else if (hero_crit_chance <= 10 && hero->class_choosen == 3)
 			{
 				hero_dmg += defender_goblin->combat.armor;
 				hero_dmg *= 3;
@@ -106,7 +115,11 @@ void combat_loop(hero_data * hero, monster_data* goblins, int numofgoblins)
 				hero->coins += defender_goblin->coins;
 				hero->xp += defender_goblin->xp;
 				printf("You killed goblin #%i and received %i coins and %i exp point from him\n\n", goblin_attacked, defender_goblin->coins, defender_goblin->xp);
-				if (hero->xp >= hero->level * 50)
+				if (hero->class_choosen == 3)
+				{
+					alive_goblins = ranger_hability(hero, goblins, numofgoblins, alive_goblins);
+				}
+				if (hero->xp >= hero->level * 100)
 				{
 					goblins_level_up(hero, goblins);
 					hero_level_up(hero);
@@ -131,7 +144,7 @@ void combat_loop(hero_data * hero, monster_data* goblins, int numofgoblins)
 				monster_data* active_goblin = goblins + i;
 				if (active_goblin->combat.hp > 0)
 				{
-					goblin_dmg += ((active_goblin->combat.attack_min + rand() % active_goblin->combat.attack_max) - hero->combat.armor);
+				goblin_dmg += ((active_goblin->combat.attack_min + rand() % active_goblin->combat.attack_max) - hero->combat.armor);
 					int goblin_crit_chance = 1 + rand() % 100;
 					if (goblin_crit_chance <= 5)
 					{
@@ -175,18 +188,70 @@ void hero_level_up(hero_data* hero)
 	hero->combat.hp += 10 * hero->level;
 	hero->combat.attack_min += 4 * hero->level;
 	hero->combat.attack_max += 4 * hero->level;
-	hero->combat.armor += 2 * hero->level;
 	hero->level += 1;
 }
 
 void goblins_level_up(hero_data* hero, monster_data* goblins)
 {
-	goblins->combat.hp += 10 * hero->level;
+	goblins->combat.hp += 20 * hero->level;
 	goblins->combat.attack_min += 10 * hero->level;
 	goblins->combat.attack_max += 10 * hero->level;
-	goblins->combat.armor += 10 * hero->level;
+	goblins->combat.armor += 1 * hero->level;
 	goblins->coins += 10 * hero->level;
-	goblins->xp += 10 * hero->level;
+	goblins->xp += 2 * hero->level;
 }
 
+int ranger_hability(hero_data* hero, monster_data* goblins, int numofgoblins, int alive_goblins)
+{
+	int goblin_attacked = 1 + rand() % numofgoblins; //we decide which goblin we are going to attack. Since our first goblin declared is goblins[1], we add 1 to the random result.
+	monster_data* defender_goblin = &goblins[goblin_attacked];
+	if (defender_goblin->combat.hp != 0) //we check if the goblin attacked is alive (hp>0). If not, we just restart the cycle.
+	{
+		printf("Your hablilty targets the goblin #%i", goblin_attacked);
+		int hero_dmg = (hero->combat.attack_min + rand() % hero->combat.attack_max);//we calculate the damage we are going to deal to the defender goblin and then substract it. if its negative or zero, due to the armor, we change it to one, cuz the gameplay.
+		int hero_crit_chance = 1 + rand() % 100;
+		if (hero_crit_chance <= 10)
+		{
+			hero_dmg += defender_goblin->combat.armor;
+			hero_dmg *= 3;
+		}
+		if (hero_dmg <= 0)
+		{
+			hero_dmg = 1;
+		}
+		if (hero_crit_chance <= 5)
+		{
+			printf(" and your arrow finds its head ");
+		}
 
+		printf(" dealing %i dmg to him\n\n", hero_dmg);
+		defender_goblin->combat.hp -= hero_dmg;
+
+		if (defender_goblin->combat.hp <= 0)
+		{
+			defender_goblin->combat.hp = 0;
+			hero->coins += defender_goblin->coins;
+			hero->xp += defender_goblin->xp;
+			printf("You killed goblin #%i and received %i coins and %i exp point from him\n\n", goblin_attacked, defender_goblin->coins, defender_goblin->xp);
+			if (hero->xp >= hero->level * 100)
+			{
+				goblins_level_up(hero, goblins);
+				hero_level_up(hero);
+				printf("Your hero has leveled up and is now level %i!!! It's stats have increased, but watch out, the new goblins are thoughter than the previous ones.\nYour new hero stats are:\n\n", hero->level);
+				getchar();
+				printf("hp: %i\nattack_min: %i\nattack_max: %i\narmor: %i\n", hero->combat.hp, hero->combat.attack_min, hero->combat.attack_max, hero->combat.armor);
+			}
+			getchar();
+			alive_goblins -= 1;
+			return alive_goblins;
+
+		}
+		else
+		{
+			printf("The goblin #%i has %i hp left \n\n", goblin_attacked, defender_goblin->combat.hp);
+			getchar();
+			return alive_goblins;
+		}
+
+	}
+}
