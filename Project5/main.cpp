@@ -25,9 +25,12 @@ int main()
 	printf("Now select a class:\n\nWarrior: No stats changed, no special habilities = 1\nPaladin: hp up, damage down, Divine Guidance = 2\nRanger: armor down, crit chance up, Piercing Shot = 3\n\n");
 	printf("Introduce the number of the class choosen: ");
 	scanf("%i", &hero.class_choosen);
+	class_stats_modifier(&hero);
 
 
 	//Here starts the game loop that will last until the hero is dead. For each "round", we generate a random number of goblins with random stats
+
+
 	while (hero.combat.hp > 0)
 	{
 		srand(time(NULL));
@@ -35,11 +38,14 @@ int main()
 		goblinstats_generator(goblins, num_goblins);
 		if (hero.level > 1)
 		{
-			goblins_level_up(&hero, goblins);
+			goblins_level_up(&hero, goblins, num_goblins);
 		}
 		printf("\nYou fight aganist an horde of %i goblins!!!\n\n", num_goblins);
+		getchar();
+		getchar();
 		combat_loop(&hero, goblins, num_goblins);
-		hero.xp += (hero.level * 10);
+		hero.total_xp += (hero.level * 10);
+		hero.level_xp += (hero.level * 10);
 	}
 	
 	printf("Game finished, thanks for playing");
