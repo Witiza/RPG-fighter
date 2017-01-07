@@ -34,8 +34,7 @@ struct monster_data
 void name_selector(hero_data*);
 void herostats_selector(hero_data*);
 void goblinstats_generator(monster_data*, int);
-void combat_loop(hero_data*, monster_data*, int numof);
-int damage_calculator(int, int, int, int);
+void combat_loop(hero_data*, monster_data*, int);
 void hero_level_up(hero_data*);
 void goblins_level_up(hero_data*, monster_data*, int);
 int ranger_hability(hero_data*, monster_data*, int, int);
