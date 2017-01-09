@@ -9,8 +9,7 @@ typedef struct combat_data combat_data;
 typedef struct monster_data monster_data;
 
 
-void name_selector(hero_data* hero)	 /*this function works by creating a temporal array, scanf the player's name on it, and then copy it into the hero.name. 
-									We do it this way because hero.name is a pointer, so we can't scanf an entire word on it.*/
+void name_selector(hero_data* hero)	 
 {
 	char temp_char[20];
 	int counter = 0;
@@ -22,7 +21,7 @@ void name_selector(hero_data* hero)	 /*this function works by creating a tempora
 		counter++;
 	}
 } 
-void herostats_selector(hero_data* hero)//This function works by just printing the stat desired and then scanf the player's stat. Althoug it recommends values, the final ones can be whatever the player puts, for testing purposes.
+void herostats_selector(hero_data* hero)
 {
 	fflush(stdin);
 
@@ -45,7 +44,7 @@ void goblinstats_generator(monster_data * goblins, int numof)//We add 1 to each 
 {
 	for (int i = 1; i <= numof; i++)
 	{
-		monster_data* active_goblin = goblins + i; //our first generated goblin will be the goblins[0]. In the main combat loop it's explained.
+		monster_data* active_goblin = goblins + i; //our first generated goblin will be the goblins[1], instead of goblins[0] because "You attack goblin #0" may sound strange to the player.
 		active_goblin->combat.hp = 1 + rand() % 100;
 		active_goblin->combat.attack_min = 1 + rand() % 9;
 		active_goblin->combat.attack_max = 10 + rand() % 10;
@@ -112,7 +111,7 @@ void combat_loop(hero_data * hero, monster_data* goblins, int numofgoblins)
 					alive_goblins = ranger_hability(hero, goblins, numofgoblins, alive_goblins);
 					alive_goblins += 1;//This is what we could call a "chapuza". In order to make the hability work, we do a alive_goblins -=1 inside the hability funcion. Because there is another -=1 in the combat function, we need to counter the first -=1 with this.
 				}
-				if (hero->level_xp >= hero->level * 100)
+				if (hero->level_xp >= hero->level * 50)
 				{
 					hero->level_xp = 0;
 					goblins_level_up(hero, goblins, numofgoblins);
@@ -200,7 +199,7 @@ void goblins_level_up(hero_data* hero, monster_data* goblins, int numofgobs)
 	
 }
 
-void class_stats_modifier(hero_data* hero) //just a switch witht he diferent classes. Class 1 counts as a default.
+void class_stats_modifier(hero_data* hero) 
 {
 	switch (hero->class_choosen)
 	{

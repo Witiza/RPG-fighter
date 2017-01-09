@@ -34,7 +34,7 @@ int main()
 	while (hero.combat.hp > 0)
 	{
 		srand(time(NULL));
-		int num_goblins = 2 + rand() % (8 + 1*hero.level); //we add a 1 to the result because a normal rand 10 would go from 0 to 9, and the player might be confused when he is attacked by 0 goblins.
+		int num_goblins = 2 + rand() % (8 + 1*hero.level); 
 		goblinstats_generator(goblins, num_goblins);
 		if (hero.level > 1)
 		{
