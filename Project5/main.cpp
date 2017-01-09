@@ -48,7 +48,8 @@ int main()
 		hero.level_xp += (hero.level * 10);
 	}
 	
-	printf("Game finished, thanks for playing");
+	printf("Game finished, thanks for playing\n\n");
+	printf("Author: Lorien Portella Lopez");
 	
 	getchar();
 	getchar();
