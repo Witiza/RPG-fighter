@@ -1,0 +1,5 @@
+﻿  Generating code
+c:\users\lorienpl\documents\github\rpg-fighter\project5\creatures.cpp(277): warning C4715: 'ranger_hability': not all control paths return a value
+  Finished generating code
+  Project5.vcxproj -> C:\Users\lorienpl\Documents\GitHub\RPG-fighter\Release\RPG Fighter.exe
+  Project5.vcxproj -> C:\Users\lorienpl\Documents\GitHub\RPG-fighter\Release\RPG Fighter.pdb (Full PDB)
